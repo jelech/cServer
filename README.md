@@ -8,8 +8,9 @@ Have a nice fun
 - xinetd
 - download the file to your linux
 - create /etc/xinetd.d/myhttpd
-- add 
-        ```
+- add
+
+```
         service myhttpd
         {
                 socket_type      = stream
@@ -21,7 +22,8 @@ Have a nice fun
                 disable          = no
                 flags            = IPv4
         }
-        ```
+```
+
  - edit /etc/services -> add a port for yourself
 
  - run ```sudo service xinetd restart```
