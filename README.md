@@ -1,13 +1,13 @@
 # cServer
 a personal server with c code.
 
-Have a nice fun
+### Have a nice fun
 
 ### you need:
 
 - xinetd
 - download the file to your linux
-- create /etc/xinetd.d/myhttpd
+- create ```/etc/xinetd.d/myhttpd```
 - add
 
 ```
@@ -24,10 +24,10 @@ Have a nice fun
         }
 ```
 
- - edit /etc/services -> add a port for yourself
-
+ - edit ```/etc/services``` -> add a port for yourself
+ - run ```make```
  - run ```sudo service xinetd restart```
- - check 127.0.0.1:yourPort
+ - check ```127.0.0.1:yourPort```
 
 
 ### future:
