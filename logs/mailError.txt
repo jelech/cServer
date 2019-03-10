@@ -1,64 +1,28 @@
-2019/2/9-18:54:57: finished once http get
-2019/2/9-19:20:19: finished once http get
-2019/2/9-19:28:11: finished once http get
-2019/2/9-19:28:32: finished once http get
-2019/2/9-19:28:32: finished once http get
-2019/2/9-19:28:32: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:28:33: finished once http get
-2019/2/9-19:29:3: finished once http get
-2019/2/9-19:29:4: finished once http get
-2019/2/9-19:29:5: finished once http get
-2019/2/9-19:29:5: finished once http get
-2019/2/9-19:29:48: finished once http get
-2019/2/9-19:29:48: finished once http get
-2019/2/9-19:29:48: finished once http get
-2019/2/9-19:30:0: finished once http get
-2019/2/9-19:30:0: finished once http get
-2019/2/9-19:30:0: finished once http get
-2019/2/9-19:30:4: finished once http get
-2019/2/9-19:30:10: finished once http get
-2019/2/9-19:30:10: finished once http get
-2019/2/9-19:30:10: finished once http get
-2019/2/9-19:30:16: finished once http get
-2019/2/9-19:30:16: finished once http get
-2019/2/9-19:30:16: finished once http get
-2019/2/9-19:30:29: finished once http get
-2019/2/9-19:30:29: finished once http get
-2019/2/9-19:30:29: finished once http get
-2019/2/9-20:6:28: finished once http get
-2019/2/9-20:6:28: finished once http get
-2019/2/9-20:6:28: finished once http get
-2019/2/9-20:6:31: finished once http get
-2019/2/9-20:6:34: finished once http get
-2019/2/9-20:6:34: finished once http get
-2019/2/9-20:6:34: finished once http get
-2019/2/9-21:4:7: finished once http get
-2019/2/9-21:4:7: finished once http get
-2019/2/9-21:4:7: finished once http get
-2019/2/9-21:05:31: finished once http get
-2019/2/9-21:05:31: finished once http get
-2019/2/9-21:05:31: finished once http get
-2019/2/9-21:14:40: finished once http get
-2019/2/9-21:14:40: finished once http get
-2019/2/9-21:14:40: finished once http get
-2019/2/9-21:14:43: finished once http get
-2019/2/9-21:14:43: finished once http get
-2019/2/9-21:14:43: finished once http get
-2019/2/9-21:15:18: finished once http get
-2019/2/9-21:15:19: finished once http get
-2019/2/9-21:15:19: finished once http get
-2019/2/9-21:20:08: error: 
-2019/2/9-21:20:45: error: 
-2019/2/9-21:22:08: error: 
-2019/2/9-21:25:43: error: 
-2019/2/9-21:25:43: error: 
-2019/2/9-21:25:46: error: 
-2019/2/9-21:26:40: error: 
-2019/2/9-21:26:40: GET/%E4%B8%AD%E6%96%87.txt
-2019/2/9-21:26:40: error: 
-2019/2/9-21:27:47: error: 
+2019/2/10-17:26:10: Host: 127.0.0.1:2222 /index.html
+2019/2/10-17:26:10: Host: 127.0.0.1:2222 /main.css
+2019/2/10-17:26:10: Host: 127.0.0.1:2222 /css/dirTest.css
+2019/2/10-17:26:10: Host: 127.0.0.1:2222 /main.js
+2019/2/10-17:26:15: Host: 127.0.0.1:2222 /
+2019/2/10-17:26:15: Host: 127.0.0.1:2222 /main.css
+2019/2/10-17:26:15: Host: 127.0.0.1:2222 /css/dirTest.css
+2019/2/10-17:26:15: Host: 127.0.0.1:2222 /main.js
+2019/2/10-17:26:18: Host: 127.0.0.1:2222 /dir
+2019/2/10-17:26:18: error: 
+2019/2/10-17:26:20: Host: 127.0.0.1:2222 /dirs
+2019/2/10-17:26:40: error: 
+2019/2/10-17:26:40: error: 
+2019/2/10-17:27:27: Host: 127.0.0.1:2222 /dirs
+2019/2/10-17:27:28: Host: 127.0.0.1:2222 /dirs
+2019/2/10-17:27:31: Host: 127.0.0.1:2222 /index.html
+2019/2/10-17:27:31: Host: 127.0.0.1:2222 /main.css
+2019/2/10-17:27:31: Host: 127.0.0.1:2222 /css/dirTest.css
+2019/2/10-17:27:31: Host: 127.0.0.1:2222 /main.js
+2019/2/10-17:27:43: error: 
+2019/2/10-17:27:43: error: 
+2019/2/10-17:35:53: Host: 127.0.0.1:2222 /index.html
+2019/2/10-17:35:53: Host: 127.0.0.1:2222 /main.css
+2019/2/10-17:35:53: Host: 127.0.0.1:2222 /css/dirTest.css
+2019/2/10-17:35:53: Host: 127.0.0.1:2222 /main.js
+2019/2/10-17:35:57: Host: 127.0.0.1:2222 /dirs
+2019/2/10-17:36:09: error: 
+2019/2/10-17:36:09: error: 
