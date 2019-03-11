@@ -1,19 +1,20 @@
-objects = myhttpd.o debug.o encode.o sendData.o
+objects = main.o debug.o encode.o sendData.o codeTools.o
+includePath = include
 
 edit : $(objects)
-	cc -o myhttpd $(objects)
+	cc -o myhttpd $(objects) 
 
-myhttpd.o : myhttpd.c bin/headers.h
-	cc -c myhttpd.c
-debug.o : bin/debug.c bin/headers.h
-	cc -c bin/debug.c
-
-encode.o : bin/encode.c bin/headers.h
-	cc -c bin/encode.c
-
-sendData.o : bin/sendData.c bin/headers.h
-	cc -c bin/sendData.c
+main.o : main.c $(includePath)/headers.h
+	cc -c main.c
+debug.o : $(includePath)/debug.c $(includePath)/headers.h
+	cc -c $(includePath)/debug.c
+encode.o : $(includePath)/encode.c $(includePath)/headers.h
+	cc -c $(includePath)/encode.c
+sendData.o : $(includePath)/sendData.c $(includePath)/headers.h
+	cc -c $(includePath)/sendData.c
+codeTools.o : $(includePath)/codeTools.c $(includePath)/headers.h
+	cc -c $(includePath)/codeTools.c
 
 .PHONY : clean
 clean :
-		-rm edit $(objects)
+		-rm $(objects)

@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "sendData.h"
 #include "encode.h"
+#include "codeTools.h"
 
 #ifndef N
     #define N 2096

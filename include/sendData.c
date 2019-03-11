@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "sendData.h"
 extern void send_header(const char *protocol, const int status, const char *type, const char *file_type, const char *msg)
 {
     printf("%s %d %s\n", protocol, status, type);
@@ -7,11 +7,15 @@ extern void send_header(const char *protocol, const int status, const char *type
 extern void send_file(char *file)
 {
     int ich;
+    char fileType[N];
+
+    
     FILE *fp = fopen(file, "r");
     if(fp == NULL) send_error(404,"File not found","File not exsist");
 
+    sscanf(file, "%*[^.].%s", fileType);
     printf("HTTP/1.1 200 ok\n");
-    printf("content-Type: text/html;charset=utf8\n\n");
+    printf("content-Type: %s\n\n", get_mine_type(fileType));
     while((ich = getc(fp)) != EOF)
         putchar(ich);
     fclose(fp);
@@ -23,21 +27,24 @@ extern void send_dir(const char *file)
     struct dirent **dl;
     struct stat sb;
     int n;
+    if(file[strlen(file) - 1] != '/')
+        sprintf(rePath, "%s/", file);
+    else
+        sprintf(rePath, "%s", file);
 
-    sprintf(rePath, "%s/", file);
     size_t len = strlen(rePath);
-    
+
     snprintf(indexPath, sizeof(indexPath), "%sindex.html", rePath);
     if (stat(indexPath, &sb) >= 0) {
         send_file(indexPath);
     } else { // 展示目录，注意建议不进行展示
-        n = scandir(rePath, &dl, NULL, alphasort);
+        n = scandir(rePath, &dl, NULL, alphasort); // 第三个为过滤器
         if (n < 0) {
             getlog("scandir error:", rePath);
         }
         else {
             send_header("http/1.1", 200, "ok", "html", "ok");
-            for (int i = 0; i != n; ++i) {
+            for (int i = 2; i != n; ++i) {
                 file_infos(rePath, dl[i]->d_name);
             }
         }
@@ -70,7 +77,7 @@ void file_infos(char *dir, char *name)
     }
     else {
         strftime(timestr, sizeof(timestr), "%d%b%Y %H:%M", localtime(&sb.st_mtime));
-        printf("<a href=\"/%s\">%32s</a>\t\t\t\t%15s\t%14ld<br>\n", path, name, timestr, (int64_t)sb.st_size);
+        printf("<a href=\"../%s\">%32s</a>\t\t\t\t%15s\t%14ld<br>\n", path, name, timestr, (int64_t)sb.st_size);
     }
     fflush(stdout);
 }

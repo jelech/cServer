@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "debug.h"
 
 // #define log(info, str) \
 //     do {\
@@ -26,7 +26,7 @@ extern void getlog(const char *info,const char *more)
 
     fprintf(tmp, "%d/%d/%d-%02d:%02d:%02d: ", 
         p->tm_year + 1900,
-        p->tm_mon,
+        p->tm_mon + 1,
         p->tm_mday,
         p->tm_hour,
         p->tm_min,
