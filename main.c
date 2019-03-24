@@ -1,11 +1,13 @@
 #include "include/headers.h"
 
+void send_post();
+void send_get(char*);
+
 int main(int argc, char const *argv[])
 {
     char line[N], method[N], path[N], protocol[N], idx[N];
-    char *file;
-    struct stat sb;
-    struct dirent **dl;
+
+
     size_t len;
     FILE *fp;
     
@@ -18,17 +20,30 @@ int main(int argc, char const *argv[])
         send_error(400, "Bad Request", "Header error");
     if(sscanf(line, "%[^ ] %[^ ] %[^ ]", method, path, protocol) != 3)
         send_error(400, "Bad Request", "Release header error");
+    while(fgets(line, N, stdin) != NULL && !strcmp(line, "\r\n")) // 获取剩余的无用头数据
+        continue;
 
-    while(fgets(line, N, stdin) != NULL)
-        if(strcmp(line, "\r\n"))
-            break;
     
     // choose method
-    if(strcmp(strupr(method), "GET") != 0)
-        send_error(400, "Bad Request", "Not GET method");
+    if(strcmp(strupr(method), "GET") == 0) {
+        send_get(path);
+    }
+    else if (strcmp(strupr(method), "POST") == 0) {
+        send_post();
+    }
+    else {
+        send_error(400, "Bad Request", "method Error");
+    }
 
+    fflush(stdout);
+    getlog("finished once http get","");
+    return 0;
+}
 
-    // get file name
+void send_get(char *path)
+{
+    struct stat sb;
+    char *file;
     if(path[0] != '/')
         send_error(400,"Bad Request" ,"Path error");
     file = path + 1;
@@ -39,7 +54,7 @@ int main(int argc, char const *argv[])
     // getParameter()
 
     // 比较前面几个字符，如果为异常字符，则直接跳转到主页
-    len = sizeof(file); 
+    int len = sizeof(file); 
     if(file[0] == '/' || strcmp(file, ".") == 0
                       || strncmp(file, "../", 3) == 0
                       || strstr(file, "/../") != NULL
@@ -54,8 +69,9 @@ int main(int argc, char const *argv[])
         send_dir(file);
     else
         send_file(file);
+}
 
-    fflush(stdout);
-    getlog("finished once http get","");
-    return 0;
+void send_post()
+{
+    
 }
