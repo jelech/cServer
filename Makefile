@@ -2,7 +2,7 @@ objects = main.o debug.o encode.o sendData.o codeTools.o
 includePath = include
 
 edit : $(objects)
-	cc -o myhttpd $(objects) 
+	cc -o leoj $(objects) 
 
 main.o : main.c $(includePath)/headers.h
 	cc -c main.c

@@ -6,11 +6,9 @@ void send_get(char*);
 int main(int argc, char const *argv[])
 {
     char line[N], method[N], path[N], protocol[N], idx[N];
-
-
-    size_t len;
-    FILE *fp;
     
+    // printf("debuf%d\n", argc);
+    // printf("ss%s\n", argv[1]);
     if(argc != 2)
         send_error(500, "Service Error", "Path didn't input");
     if(chdir(argv[1]) == -1)
@@ -29,14 +27,23 @@ int main(int argc, char const *argv[])
         send_get(path);
     }
     else if (strcmp(strupr(method), "POST") == 0) {
-        send_post();
+        char ret[1024];
+        // while (fgets(line, N, stdin) != NULL) // 获取剩余的无用头数据
+        //     strcat(ret, line);
+            // printf("%s\n", line);
+        
+        printf( "HTTP/1.1 200 oK\n");
+        printf("Content-Type: text/text;charset=utf8\r\n");
+        // printf("%s???\n", ret);
+        // send_post(line);
+        // send_get(path);
     }
     else {
         send_error(400, "Bad Request", "method Error");
     }
 
     fflush(stdout);
-    getlog("finished once http get","");
+    // getlog("finished once http get","");
     return 0;
 }
 
@@ -71,7 +78,12 @@ void send_get(char *path)
         send_file(file);
 }
 
-void send_post()
+void send_post(char * line)
 {
-    
+    printf("HTTP/1.1 200 ok\n");
+    printf("Content-Type: text/html;charset=utf8\n\n");
+    while(fgets(line, N, stdin) != NULL && !strcmp(line, "\r\n")) // 获取剩余的无用头数据
+        printf("%s\n", line);
 }
+
+
