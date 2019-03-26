@@ -118,6 +118,6 @@ int main(int argc, char const *argv[])
 */
 int a;
 scanf("%d",&a);
-printf("%d",a);
+printf("%d",a+1);
 	return 0;
 }

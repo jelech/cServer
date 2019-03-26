@@ -3,16 +3,18 @@ import socket
 import signal
 import subprocess
 import os
-
-SERVER_ADDRESS = (HOST, PORT) = '', 8888
+HOST, PORT = '', 8888
+SERVER_ADDRESS = (HOST, PORT)
 REQUEST_QUEUE_SIZE = 10
 SITE_PATH = 'site/'
+BAD_REQUEST = b"\nHTTP/1.1 400 false\n\nerror request\n"
+
 
 def grim_reaper(signum, frame):
     pid, status = os.wait()
 
-def response_get(path):
-    http_response = b"\nHTTP/1.1 404 false\n\nfile isn't exists\n"
+def response_get(client_connection, path):
+    http_response = BAD_REQUEST
     if len(path) == 0:
         path = '/'
     if os.path.isdir(path):
@@ -25,32 +27,49 @@ def response_get(path):
         http_response = b"\nHTTP/1.1 200 ok\n\n"
         with open(path) as f:
             http_response += bytes(f.read(), "utf8")
+
+    client_connection.sendall(http_response)
+    client_connection.close()
     return http_response
 
-def response_post(http_params, data):
-    http_response = b"\nHTTP/1.1 400 false\n\nerror request\n"
+def response_post(client_connection, http_params, data):
+    http_response = BAD_REQUEST
+    problemNum = '00001'
     
     # 登陆用户名
     username = http_params.partition("username=")[2].partition("&")[0]
+    fileDir = "checkProblem/" + problemNum
     # data写入文件
     new_file_name = username + ".cpp"
     with open(new_file_name, 'w') as f:
         f.write(data)
         http_response = b"\nHTTP/1.1 200 ok\r\n\r\nupdated!!\n"
 
-    return http_response
 
     # 调用cpp底层check是否可以运行
 
     # 假设检查完毕
-    stdout = subprocess.call("g++ " + new_file_name + " -o " + username, shell=True)
-    stdout = subprocess.getoutput("cat in.txt | ./" + username + " > out.txt")
-    print("debug:::",stdout)
-    
+    try:
+        client_connection.sendall(http_response)
+        client_connection.close()
+        return http_response
+    finally:
+        try:
+            print(new_file_name, fileDir, username)
+            subprocess.call("g++ " + new_file_name + " -o " + fileDir + "/" + username, shell=True)
+            stdout = subprocess.getoutput("cd " + fileDir + " && cat in.txt | ./" + username + " > out.txt && rm " + username)
+
+            commande = "checkProblem/check " + fileDir + "/stout.txt " + fileDir + "/out.txt"
+            # commande = "pwd"
+            print("debug:",commande)
+            stdout = subprocess.getstatusoutput(commande)
+            print("out:", stdout[1])
+
+            subprocess.call("rm out.txt")
+        except BaseException:
+            print("debug:::",stdout)
+            print("running done")
     # 编辑数据到数据库
-
-    print("running done")
-
     
 
 def handle_request(client_connection):
@@ -59,7 +78,7 @@ def handle_request(client_connection):
     request = client_connection.recv(1024)
     http_type, http_params, http_protocol = request.decode().split('\n')[0].split(' ')
     data = request.decode().partition('\r\n\r\n')[2]
-    
+
     # 循环接受剩余的数据
     while True:
         if len(request) < 1024:
@@ -68,14 +87,14 @@ def handle_request(client_connection):
         data += (request.decode())
     
     # 先设置为默认的请求失败字符串
-    http_response = b"\nHTTP/1.1 400 false\n\nerror request\n"
+    # http_response = b"\nHTTP/1.1 400 false\n\nerror request\n"
     # 现在先处理了get与post请求
     if http_type.lower() == "get":
-        http_response = response_get(http_params.split('?')[0])
+        response_get(client_connection, http_params.split('?')[0])
     elif http_type.lower() == "post":
-        http_response = response_post(http_params, data)
+        response_post(client_connection, http_params, data)
     # 返回数据    
-    client_connection.sendall(http_response)
+    # client_connection.sendall(http_response)
 
 
 def server_loop():
@@ -105,7 +124,7 @@ def server_loop():
             # 子进程只会运行一次，要关闭socket，否则会占用不必要的资源
             listen_socket.close()
             handle_request(client_connection)
-            client_connection.close()
+            # client_connection.close()
             os._exit(0)
         else:  # parent
             # 没吃运行的时候父进程要关闭连接，否则子进程关闭后，连接无法关闭，导致资源浪费
