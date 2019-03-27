@@ -14,18 +14,22 @@
 #include <fstream>
 using namespace std;
 
-int compare(string str1,string str2){
-    if (str1==str2) return 0;
-    int x=0,y=0;
-    while (x<str1.length() && y<str2.length()){
-        if (str1[x]==' ') x++;
-        else if (str2[y]==' ') y++;
-        else if (str1[x]!=str2[y]) return 1;
-        else x++,y++;
-    }
-    while (x<str1.length() && str1[x]==' ') x++;
-    while (y<str2.length() && str2[y]==' ') y++;
-    if (x==str1.length() && y==str2.length()) return 1;
+int compare(const string& str1,const string& str2){
+    cout << "." << str1.length() << "_" << endl;
+    cout << "," << str2.length() << "_" << endl;
+
+    if (str1.compare(str2) == 0) return 0;
+    printf("debug%d\n",str1.compare(str2));
+    // int x=0,y=0;
+    // while (x<str1.length() && y<str2.length()){
+    //     if (str1[x]==' ') x++;
+    //     else if (str2[y]==' ') y++;
+    //     else if (str1[x]!=str2[y]) return 1;
+    //     else x++,y++;
+    // }
+    // while (x<str1.length() && str1[x]==' ') x++;
+    // while (y<str2.length() && str2[y]==' ') y++;
+    // if (x==str1.length() && y==str2.length()) return 1;
     return 2;
 }
 
@@ -39,50 +43,54 @@ bool Is_empty(string s){
 
 string check(const string& wj1, const string& wj2){
     ifstream op;
-    string str1[20005],str2[20005];
+    string str1[2005],str2[2005];
     op.open(wj1);
     int cnt1=0;
-    while (!op.eof()){
-        char ch=op.get();
-        if (ch=='\n') cnt1++;
-        else str1[cnt1]+=ch;
+    // ("debug::??\n");
+    while (getline(op,str1[cnt1++])){
+        
+        if(str1[cnt1-1][str1[cnt1-1].length() -1] == '\r'){
+            str1[cnt1 - 1].pop_back();
+        }
     }
     op.close();
-
     op.open(wj2);
     int cnt2=0;
-    while (!op.eof()){
-        char ch=op.get();
-        if (ch=='\n') cnt2++;
-        else str2[cnt2]+=ch;
+    while (getline(op,str2[cnt2++])){
+        
+        if(str2[cnt2-1][str2[cnt2-1].length() -1] == '\r'){
+            str2[cnt2 - 1].pop_back();
+        }
     }
     op.close();
-    int res=0;
-    for (int i=0;i<min(cnt1,cnt2);i++){
-        if (res==2) break;
-        res=compare(str1[i],str2[i]);
-    }
 
-    if (cnt1>cnt2){
-        for (int i=cnt2;i<cnt1;i++){
-            if (!Is_empty(str1[i])){
-                res=2;
-                break;
-            }
-        }
-    }
-    if (cnt2>cnt1){
-        for (int i=cnt1;i<cnt2;i++){
-            if (!Is_empty(str2[i])){
-                res=2;
-                break;
-            }
-        }
-    }
+    if(cnt1 != cnt2)
+        return "WA";
 
-    if (res==0) return "AC";
-    if (res==1) return "PE";
-    if (res==2) return "WA";
+    for (int i=0;i<cnt1;i++){
+        // cout << str1[i] << "," <<endl;
+        // cout << str2[i] << "." << endl;
+        if (str1[i]!=str2[i])
+            return "WA";
+    }
+    // if (cnt1>cnt2){
+    //     for (int i=cnt2;i<cnt1;i++){
+    //         if (!Is_empty(str1[i])){
+    //             res=2;
+    //             break;
+    //         }
+    //     }
+    // }
+    // if (cnt2>cnt1){
+    //     for (int i=cnt1;i<cnt2;i++){
+    //         if (!Is_empty(str2[i])){
+    //             res=2;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    return "AC";
 }
 
 // 输入两个path
